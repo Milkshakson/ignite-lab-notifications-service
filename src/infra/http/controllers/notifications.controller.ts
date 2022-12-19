@@ -17,45 +17,39 @@ export class NotificationsController {
     private unreadNotification: UnreadNotification,
     private countRecipientNotifications: CountRecipientNotifications,
     private getNotifications: GetRecipientNotifications,
-  ) { }
+  ) {}
 
   @Patch(':id/cancel')
-  async cancel(
-    @Param('id') id: string
-  ) {
-    await this.cancelNotification.execute({ notificationId: id })
+  async cancel(@Param('id') id: string) {
+    await this.cancelNotification.execute({ notificationId: id });
   }
 
   @Get('count/from/:recipientId')
   async countFromRecipient(@Param('recipientId') recipientId: string) {
     const { count } = await this.countRecipientNotifications.execute({
-      recipientId
-    })
+      recipientId,
+    });
 
-    return { count }
+    return { count };
   }
 
   @Get('from/:recipientId')
-  async getFromRecipient(
-    @Param('recipientId') recipientId: string
-  ) {
-    const { notifications } = await this.getNotifications.execute(
-      { recipientId }
-    );
+  async getFromRecipient(@Param('recipientId') recipientId: string) {
+    const { notifications } = await this.getNotifications.execute({
+      recipientId,
+    });
 
-    return { notifications: notifications.map(NotificationViewModel.toHTTP) }
+    return { notifications: notifications.map(NotificationViewModel.toHTTP) };
   }
 
   @Patch(':id/read')
-  async read(
-    @Param('id') id: string
-  ) {
-    await this.readNotification.execute({ notificationId: id })
+  async read(@Param('id') id: string) {
+    await this.readNotification.execute({ notificationId: id });
   }
 
   @Patch(':id/unread')
   async unread(@Param('id') id: string) {
-    await this.unreadNotification.execute({ notificationId: id })
+    await this.unreadNotification.execute({ notificationId: id });
   }
 
   @Post('/')
